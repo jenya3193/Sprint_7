@@ -7,11 +7,10 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import static io.restassured.RestAssured.given;
-import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class CheckAuth {
+public class AuthCourier {
 
     @Before
     public void setUp() {

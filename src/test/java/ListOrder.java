@@ -1,6 +1,5 @@
 import io.qameta.allure.TmsLink;
 import io.restassured.RestAssured;
-
 import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +11,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 
-public class CheckListOrder {
+public class ListOrder {
 
     @Before
     public void setUp() {
@@ -23,7 +22,7 @@ public class CheckListOrder {
     @DisplayName("Получение списка заказов")
     @Description("Проверка без передачи параметров")
     @TmsLink("ТС78")
-    public void CheckOrderListWithoutParametrs(){
+    public void CheckOrderListWithoutParameters(){
 
                 given()
                         .header("Content-type", "application/json")

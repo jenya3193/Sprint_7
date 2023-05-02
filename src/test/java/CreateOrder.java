@@ -1,5 +1,3 @@
-package create;
-
 import io.qameta.allure.TmsLink;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -17,7 +15,7 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @RunWith(Parameterized.class)
-public class CheckCreateOrder {
+public class CreateOrder {
     private String color;
 
     @Parameterized.Parameters
@@ -26,7 +24,7 @@ public class CheckCreateOrder {
         return new Object[] {"\"GREY\"","\"BLACK\"", "\"GREY\",\"BLACK\"",""};
     }
 
-    public CheckCreateOrder(String color) {
+    public CreateOrder(String color) {
         this.color = color;
     }
 
@@ -38,7 +36,7 @@ public class CheckCreateOrder {
 
     @Test
     @DisplayName("Создание заказа")
-    @Description("Провека что можно успешно создать заказ")
+    @Description("Провека что можно успешно создать заказ, с передачей двух цветов, одного и без цвета ")
     @TmsLink("ТС78")
     public void createNewOrder(){
         String json = String.format(
@@ -55,5 +53,9 @@ public class CheckCreateOrder {
                         .assertThat()
                                  .statusCode(SC_CREATED)
                                  .body("track", notNullValue());
+    }
+    @AfterAll
+    static void tear(){
+        System.out.println("@AfterAll executed");
     }
 }

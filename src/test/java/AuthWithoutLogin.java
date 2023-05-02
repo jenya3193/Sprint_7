@@ -10,17 +10,14 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
-import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 
 
-public class CheckAuthWithoutLogin {
+
+public class AuthWithoutLogin {
         String login;
         String password;
         String firstName;
-
-
 
         @Before
         public void setUp() {
@@ -30,7 +27,6 @@ public class CheckAuthWithoutLogin {
 
             RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
         }
-
 
     @Test
     @DisplayName("Авторизация курьера")
@@ -43,15 +39,15 @@ public class CheckAuthWithoutLogin {
 
         Response response =
                 given()
-                        .log().all()
                         .header("Content-type", "application/json")
                         .and()
                         .body(json)
                         .when()
                         .post("/api/v1/courier/login");
-        response.then().assertThat()
-                .statusCode(SC_BAD_REQUEST)
-                .body("message", equalTo("Недостаточно данных для входа"));
+                         response.then()
+                        .assertThat()
+                        .statusCode(SC_BAD_REQUEST)
+                        .body("message", equalTo("Недостаточно данных для входа"));
 
 
 

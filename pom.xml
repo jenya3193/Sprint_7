@@ -2,67 +2,81 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-report-plugin -->
-
-    <groupId>sprint_7</groupId>
-    <artifactId>testing</artifactId>
+    <groupId>org.example</groupId>
+    <artifactId>Sprint_7</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit4</artifactId>
+            <version>2.21.0</version>
+        </dependency>
+        <dependency>
+            <!-- модуль взаимодействия Allure и RestAssured -->
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>2.21.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <properties>
+        <aspectj.version>1.9.7</aspectj.version>
+        <allure.version>2.15.0</allure.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>com.soebes.maven.plugins</groupId>
-                <artifactId>uptodate-maven-plugin</artifactId>
-                <version>0.2.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>dependency</goal>
-                        </goals>
-                        <phase>validate</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.2.201409121644</version>
-                <executions>
-                    <execution>
-                        <id>default-prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default-report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
+                <version>2.22.2</version>
+
                 <configuration>
+                    <includes>
+                        <include>**</include>
+                    </includes>
                     <testFailureIgnore>false</testFailureIgnore>
-                    <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
                     <properties>
                         <property>
                             <name>listener</name>
@@ -71,6 +85,7 @@
                     </properties>
                     <systemProperties>
                         <property>
+                            <!-- папка, в которую будут генерироваться отчёты Allure -->
                             <name>allure.results.directory</name>
                             <value>${project.build.directory}/allure-results</value>
                         </property>
@@ -84,96 +99,16 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
+            <!-- подключение плагина allure-maven для вызова функций Allure с помощью Maven -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.9</version>
+                <version>2.10.0</version>
                 <configuration>
-                    <reportVersion>2.22.0</reportVersion>
+                    <reportVersion>2.21.0</reportVersion>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
-            <scope>compile</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert-core</artifactId>
-            <version>2.0M10</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.3.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.3.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.7.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit4</artifactId>
-            <version>2.22.0</version>
-        </dependency>
-        <dependency>
-            <groupId>faker</groupId>
-            <artifactId>faker</artifactId>
-            <version>0.3.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>maker</groupId>
-            <artifactId>maker</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-    </dependencies>
-
-    <properties>
-        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-        <aspectj.version>1.8.10</aspectj.version>
-        <allure-junit4.version>2.6.0</allure-junit4.version>
-    </properties>
-    <repositories>
-        <repository>
-            <id>clojars</id>
-            <name>Clojars</name>
-            <url>https://repo.clojars.org/</url>
-        </repository>
-    </repositories>
 
 </project>

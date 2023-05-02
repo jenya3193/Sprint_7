@@ -5,11 +5,12 @@ import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class CheckAuthNonexistentLoginPass {
+public class AuthNonexistentLoginPass {
 
     @Before
     public void setUp() {
@@ -23,7 +24,7 @@ public class CheckAuthNonexistentLoginPass {
     public void createNewCourierAndCheckResponse(){
         String json = "{\"login\": \"new4664ester\", \"password\": \"7825119\"}";
         Response response =
-                given()
+                 given()
                         .header("Content-type", "application/json")
                         .and()
                         .body(json)

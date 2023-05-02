@@ -5,11 +5,12 @@ import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+
 import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.hasSize;
 
-public class CheckLimitOrder {
+public class LimitOrder {
 
     @Before
     public void setUp() {
@@ -25,7 +26,9 @@ public class CheckLimitOrder {
                 given()
                         .header("Content-type", "application/json")
                         .when()
-                        .get("/api/v1/orders?limit=10&page=0");
+                        .queryParam("limit", 10)
+                        .queryParam("page", 0)
+                        .get("/api/v1/orders");
                          response.then()
                         .assertThat()
                         .statusCode(SC_OK);

@@ -1,5 +1,4 @@
 
-
 import client.RandomFirstNameCourier;
 import client.RandomLoginCourier;
 import client.RandomPasswordCourier;
@@ -15,10 +14,11 @@ import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.CoreMatchers.*;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 
 
-public class CheckCreateCourier {
+public class CreateCourier {
     String login;
     String password;
     String firstName;
@@ -72,7 +72,10 @@ public class CheckCreateCourier {
 
 
     }
-
+    @AfterAll
+    static void tear(){
+        System.out.println("@AfterAll executed");
+    }
 }
 
 
