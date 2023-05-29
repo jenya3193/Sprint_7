@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.model;
+package client;
 
 public class CourierCredentials {
 

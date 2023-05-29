@@ -1,37 +1,58 @@
+import client.Courier;
+import client.CourierClient;
+import client.CourierCredentials;
 import io.qameta.allure.TmsLink;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.response.ValidatableResponse;
 import jdk.jfr.Description;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 
-import static io.restassured.RestAssured.given;
-import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class AuthNonexistentLoginPass {
+
+public class AuthNonexistentLoginPassTest {
+
+    private CourierClient courierClient;
+    private ValidatableResponse courierLogin;
+
+
+    @BeforeClass
+    public static void globalSetUp() {
+        RestAssured.filters(
+                new RequestLoggingFilter(), new ResponseLoggingFilter(),
+                new AllureRestAssured()
+        );
+    }
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
+        courierClient = new CourierClient();
     }
 
     @Test
     @DisplayName("Авторизация курьера")
-    @Description("Провека что можно можно авторизоваться с несуществующим пользователем")
+    @Description("Провека что нельзя авторизоваться с несуществующим пользователем")
     @TmsLink("ТС6")
-    public void createNewCourierAndCheckResponse(){
-        String json = "{\"login\": \"new4664ester\", \"password\": \"7825119\"}";
-        Response response =
-                 given()
-                        .header("Content-type", "application/json")
-                        .and()
-                        .body(json)
-                        .when()
-                        .post("/api/v1/courier/login");
-                         response.then().assertThat()
-                        .statusCode(SC_NOT_FOUND)
-                        .body("message", equalTo("Учетная запись не найдена"));
+    public void createNewCourierAndCheckResponse() {
+        Courier courier = new Courier("Аппавв", "123123123", "");
+
+        courierLogin = courierClient.login(CourierCredentials.from(courier))
+                .assertThat()
+                .assertThat()
+                .statusCode(SC_NOT_FOUND)
+                .body("message", equalTo("Учетная запись не найдена"));
+    }
+
+    @AfterAll
+    static void tear(){
+        System.out.println("@AfterAll executed");
     }
 }
